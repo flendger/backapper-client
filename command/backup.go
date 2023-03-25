@@ -2,6 +2,7 @@ package command
 
 import (
 	"backapper-client/params"
+	"backapper-client/pathresolver"
 	"io"
 	"log"
 	"net/http"
@@ -11,7 +12,7 @@ type Backup struct {
 }
 
 func (b Backup) Run(p *params.Params) error {
-	response, err := http.Get("http://localhost:8080/" + p.Command + "?app=" + p.AppName)
+	response, err := http.Get(pathresolver.Resolve(p))
 	if err != nil {
 		return err
 	}
