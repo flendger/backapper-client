@@ -11,7 +11,7 @@ import (
 type Backup struct {
 }
 
-func (b Backup) Run(p *params.Params) error {
+func (b *Backup) Run(p *params.Params) error {
 	response, err := http.Get(pathresolver.Resolve(p))
 	if err != nil {
 		return err
@@ -33,6 +33,6 @@ func (b Backup) Run(p *params.Params) error {
 	return nil
 }
 
-func (b Backup) Type() string {
+func (b *Backup) Type() string {
 	return "backup"
 }
