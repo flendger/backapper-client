@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	//command appName filePath
+	//address command appName filePath
 	commandParams, err := params.Resolve()
 	if err != nil {
 		log.Println(err.Error())
