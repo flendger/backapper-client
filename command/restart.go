@@ -11,7 +11,7 @@ import (
 type Restart struct {
 }
 
-func (b *Restart) Run(p *params.Params) error {
+func (r *Restart) Run(p *params.Params) error {
 	response, err := http.Get(pathresolver.Resolve(p))
 	if err != nil {
 		return err
@@ -33,6 +33,6 @@ func (b *Restart) Run(p *params.Params) error {
 	return nil
 }
 
-func (b *Restart) Type() string {
+func (r *Restart) Type() string {
 	return "restart"
 }
