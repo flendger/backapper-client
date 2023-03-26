@@ -15,7 +15,7 @@ func main() {
 		return
 	}
 
-	commandResolver := resolver.New(&command.Backup{}, &command.Restart{})
+	commandResolver := resolver.New(&command.Backup{}, &command.Deploy{}, &command.Restart{})
 	resolvedCommand, err := commandResolver.GetCommand(commandParams)
 	if err != nil {
 		log.Println(err)
