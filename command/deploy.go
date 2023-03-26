@@ -15,14 +15,16 @@ type Deploy struct {
 }
 
 func (d *Deploy) Run(p *params.Params) error {
-	var buf bytes.Buffer
-	w := multipart.NewWriter(&buf)
-	file, err := w.CreateFormFile("file", p.FilePath)
+	log.Println("Starting deploy: " + p.AppName)
+	log.Println("Opening file: " + p.FilePath)
+	src, err := os.Open(p.FilePath)
 	if err != nil {
 		return err
 	}
 
-	src, err := os.Open(p.FilePath)
+	var buf bytes.Buffer
+	w := multipart.NewWriter(&buf)
+	file, err := w.CreateFormFile("file", p.FilePath)
 	if err != nil {
 		return err
 	}
@@ -37,6 +39,7 @@ func (d *Deploy) Run(p *params.Params) error {
 		return errClose
 	}
 
+	log.Println("Uploading file...")
 	response, err := http.Post(pathresolver.Resolve(p), w.FormDataContentType(), &buf)
 	if err != nil {
 		return err
