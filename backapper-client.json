@@ -1,0 +1,13 @@
+[
+  {
+    "name": "dev",
+    "app": "test-app",
+    "path": "./test.txt",
+    "host": "localhost",
+    "port": "8787",
+    "proxy": {
+      "host": "localhost",
+      "port": "8989"
+    }
+  }
+]
