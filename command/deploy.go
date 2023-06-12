@@ -1,30 +1,31 @@
 package command
 
 import (
-	"backapper-client/params"
-	"backapper-client/pathresolver"
 	"bytes"
 	"io"
 	"log"
 	"mime/multipart"
-	"net/http"
 	"os"
 )
 
 type Deploy struct {
 }
 
-func (d *Deploy) Run(p *params.Params) error {
-	log.Println("Starting deploy: " + p.AppName)
-	log.Println("Opening file: " + p.FilePath)
-	src, err := os.Open(p.FilePath)
+func (d *Deploy) Run(r *Request) error {
+	profile := r.Profile
+	path := profile.Path
+	client := r.Client
+
+	log.Println("Starting deploy: " + profile.App)
+	log.Println("Opening file: " + path)
+	src, err := os.Open(path)
 	if err != nil {
 		return err
 	}
 
 	var buf bytes.Buffer
 	w := multipart.NewWriter(&buf)
-	file, err := w.CreateFormFile("file", p.FilePath)
+	file, err := w.CreateFormFile("file", path)
 	if err != nil {
 		return err
 	}
@@ -40,7 +41,7 @@ func (d *Deploy) Run(p *params.Params) error {
 	}
 
 	log.Println("Uploading file...")
-	response, err := http.Post(pathresolver.Resolve(p), w.FormDataContentType(), &buf)
+	response, err := client.Post(Resolve(r), w.FormDataContentType(), &buf)
 	if err != nil {
 		return err
 	}

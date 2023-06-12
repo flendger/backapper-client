@@ -2,36 +2,31 @@ package params
 
 import (
 	"errors"
-	"os"
+	"flag"
 )
 
 type Params struct {
-	Address  string
-	Command  string
-	AppName  string
-	FilePath string
+	Command string
+	Profile string
 }
 
 func Resolve() (*Params, error) {
-	if len(os.Args) < 2 {
-		return nil, errors.New("usage: address command app file (optional)")
-	}
-	address := os.Args[1]
 
-	if len(os.Args) < 3 {
-		return nil, errors.New("no command passed")
-	}
-	command := os.Args[2]
+	var commandName string
+	flag.StringVar(&commandName, "c", "", "command")
 
-	if len(os.Args) < 4 {
-		return nil, errors.New("no app name passed")
-	}
-	appName := os.Args[3]
+	var profileName string
+	flag.StringVar(&profileName, "p", "", "profile")
 
-	var path string
-	if len(os.Args) > 4 {
-		path = os.Args[4]
+	flag.Parse()
+
+	if commandName == "" {
+		return nil, errors.New("command missing")
 	}
 
-	return &Params{Address: address, Command: command, AppName: appName, FilePath: path}, nil
+	if profileName == "" {
+		return nil, errors.New("profile missing")
+	}
+
+	return &Params{Command: commandName, Profile: profileName}, nil
 }

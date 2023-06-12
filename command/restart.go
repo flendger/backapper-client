@@ -1,18 +1,17 @@
 package command
 
 import (
-	"backapper-client/params"
-	"backapper-client/pathresolver"
 	"io"
 	"log"
-	"net/http"
 )
 
 type Restart struct {
 }
 
-func (r *Restart) Run(p *params.Params) error {
-	response, err := http.Get(pathresolver.Resolve(p))
+func (r *Restart) Run(request *Request) error {
+	client := request.Client
+
+	response, err := client.Get(Resolve(request))
 	if err != nil {
 		return err
 	}

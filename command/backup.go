@@ -1,18 +1,17 @@
 package command
 
 import (
-	"backapper-client/params"
-	"backapper-client/pathresolver"
 	"io"
 	"log"
-	"net/http"
 )
 
 type Backup struct {
 }
 
-func (b *Backup) Run(p *params.Params) error {
-	response, err := http.Get(pathresolver.Resolve(p))
+func (b *Backup) Run(r *Request) error {
+	client := r.Client
+
+	response, err := client.Get(Resolve(r))
 	if err != nil {
 		return err
 	}
