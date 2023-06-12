@@ -10,6 +10,7 @@ import (
 )
 
 const configPath = "backapper-client.json"
+const version = "2.0.0"
 
 var logger *log.Logger
 
@@ -18,6 +19,7 @@ func init() {
 }
 
 func main() {
+	logger.Println("version:", version)
 
 	holder := profileholder.Read(configPath, logger)
 
